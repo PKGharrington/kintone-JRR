@@ -59,7 +59,7 @@
   // [โค้ดใหม่] ส่งค่า remainFold ไป Production Order App
   // -------------------------------
   var PROD_ORDER_APP_ID = 32; // 👉 ใส่ App ID ของ Production Order App จริง
-  var FIELD_SALE_ORDER = "sale_remainFold"; // 👉 ฟิลด์ที่ใช้เชื่อม (แก้ให้ตรงของคุณ)
+  var FIELD_SALE_ORDER = "Production_order_sale_order_lookup"; // 👉 ฟิลด์ที่ใช้เชื่อม (แก้ให้ตรงของคุณ)
   var FIELD_REMAIN = "remainFold";          // 👉 ฟิลด์ remainFold ของคุณ
 
   kintone.events.on(
