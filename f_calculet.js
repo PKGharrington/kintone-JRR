@@ -55,49 +55,49 @@
     return event;
   });
 
-  var PROD_ORDER_APP_ID = 32; // App ID ของ Production Order App
+//   var PROD_ORDER_APP_ID = 32; // App ID ของ Production Order App
 
-  // ฟิลด์ที่ใช้เชื่อม ต้องเป็น "Sale Order Code" (หรือฟิลด์อื่นที่บอกได้ว่าเป็น order ไหน)
-  // ให้ใส่ Field Code ของฟิลด์นี้ เช่น "sale_order_code"
-  var FIELD_KEY = "Production_order_sale_order_lookup"; 
+//   // ฟิลด์ที่ใช้เชื่อม ต้องเป็น "Sale Order Code" (หรือฟิลด์อื่นที่บอกได้ว่าเป็น order ไหน)
+//   // ให้ใส่ Field Code ของฟิลด์นี้ เช่น "sale_order_code"
+//   var FIELD_KEY = "Production_order_sale_order_lookup"; 
 
-  // ฟิลด์ผ้าคงเหลือใน Production Order App
-  var FIELD_REMAIN = "sale_remainFold"; 
+//   // ฟิลด์ผ้าคงเหลือใน Production Order App
+//   var FIELD_REMAIN = "sale_remainFold"; 
 
-kintone.events.on(
-  ["app.record.create.submit.success", "app.record.edit.submit.success"],
-  function(event) {
-    var record = event.record;
+// kintone.events.on(
+//   ["app.record.create.submit.success", "app.record.edit.submit.success"],
+//   function(event) {
+//     var record = event.record;
 
-    // ดึงคีย์จากฟิลด์เชื่อม
-    var orderCode = record[FIELD_KEY].value;
+//     // ดึงคีย์จากฟิลด์เชื่อม
+//     var orderCode = record[FIELD_KEY].value;
 
-    // ดึงค่าผ้าคงเหลือ
-    var remain = record[FIELD_REMAIN].value;
+//     // ดึงค่าผ้าคงเหลือ
+//     var remain = record[FIELD_REMAIN].value;
 
-    // ใช้คีย์ไปค้นหาใน Production Order App
-    var query = FIELD_KEY + ' = "' + orderCode + '"';
-    var getParam = { app: PROD_ORDER_APP_ID, query: query };
+//     // ใช้คีย์ไปค้นหาใน Production Order App
+//     var query = FIELD_KEY + ' = "' + orderCode + '"';
+//     var getParam = { app: PROD_ORDER_APP_ID, query: query };
 
-    return kintone.api("/k/v1/records", "GET", getParam).then(function(resp) {
-      if (resp.records.length > 0) {
-        var recId = resp.records[0].$id.value;
-        var putParam = {
-          app: PROD_ORDER_APP_ID,
-          id: recId,
-          record: {}
-        };
-        putParam.record[FIELD_REMAIN] = { value: remain };
+//     return kintone.api("/k/v1/records", "GET", getParam).then(function(resp) {
+//       if (resp.records.length > 0) {
+//         var recId = resp.records[0].$id.value;
+//         var putParam = {
+//           app: PROD_ORDER_APP_ID,
+//           id: recId,
+//           record: {}
+//         };
+//         putParam.record[FIELD_REMAIN] = { value: remain };
 
-        return kintone.api("/k/v1/record", "PUT", putParam);
-      } else {
-        console.log("⚠️ ไม่พบ Production Order ที่ตรงกับ Order Code:", orderCode);
-      }
-    }).catch(function(err) {
-      console.error("API Error:", err);
-    });
-  }
-);
+//         return kintone.api("/k/v1/record", "PUT", putParam);
+//       } else {
+//         console.log("⚠️ ไม่พบ Production Order ที่ตรงกับ Order Code:", orderCode);
+//       }
+//     }).catch(function(err) {
+//       console.error("API Error:", err);
+//     });
+//   }
+// );
 
 
 })();
