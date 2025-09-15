@@ -59,7 +59,7 @@
 
   // ฟิลด์ที่ใช้เชื่อม ต้องเป็น "Sale Order Code" (หรือฟิลด์อื่นที่บอกได้ว่าเป็น order ไหน)
   // ให้ใส่ Field Code ของฟิลด์นี้ เช่น "sale_order_code"
-  var FIELD_KEY = "sale_order_code"; 
+  var FIELD_KEY = "Production_order_sale_order_lookup"; 
 
   // ฟิลด์ผ้าคงเหลือใน Production Order App
   var FIELD_REMAIN = "sale_remainFold"; 
