@@ -7,6 +7,8 @@
   var ITEM_APP_ID = 53;   // Product Master Data app ID
   var SUBDOMAIN   = "z0j2a1yk5nej"; // your Kintone subdomain
 
+  var PROD_ORDER_APP_ID = 32;
+
   // Field codes in the Sales Order app
   var TABLE_CODE     = "product_table";        
   var PRODUCT_CODE   = "product_code";         
@@ -91,5 +93,32 @@
       return event;
     }
   );
+  // -------------------------------
+  // Event: Add Button to Header
+  // -------------------------------
+  kintone.events.on(["app.record.detail.show"], function(event) {
+    // ลบปุ่มเดิมถ้ามี (ป้องกันซ้ำ)
+    if (document.getElementById("goProdOrderBtn")) {
+      return;
+    }
+    if (document.getElementById("goProdOrderBtn")) {
+      return;
+    }
+
+    // สร้างปุ่ม
+    var myButton = document.createElement("button");
+    myButton.id = "goProdOrderBtn";
+    myButton.innerText = "ไปที่ Production Order";
+    myButton.className = "kintoneplugin-button-normal";
+
+    // กดแล้วไปที่ Production Order App
+    myButton.onclick = function() {
+      var url = "https://" + SUBDOMAIN + ".cybozu.com/k/" + PROD_ORDER_APP_ID + "/";
+      window.open(url, "_blank"); // เปิดหน้าใหม่
+    };
+
+    // ใส่ปุ่มใน Header Menu
+    kintone.app.record.getHeaderMenuSpaceElement().appendChild(myButton);
+  });
 
 })();

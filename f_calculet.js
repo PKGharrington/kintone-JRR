@@ -48,7 +48,7 @@
     });
 
     if (sumFolds > totalFoldAll) {
-      event.error = "จำนวนทอพับรวมเกินจำนวน (" + totalFoldAll + ") กรุณาแก้ไขก่อนบันทึก";
+      event.error = "จำนวนทอพับรวมเกิน (" + totalFoldAll + ") กรุณาแก้ไขก่อนบันทึก";
       return event;
     }
 
