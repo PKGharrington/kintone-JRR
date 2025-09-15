@@ -55,29 +55,24 @@
     return event;
   });
 
-})();
+  // -------------------------------
+  // [โค้ดใหม่] ส่งค่า remainFold ไป Production Order App
+  // -------------------------------
+  var PROD_ORDER_APP_ID = 32; // 👉 ใส่ App ID ของ Production Order App จริง
+  var FIELD_SALE_ORDER = "sale_remainFold"; // 👉 ฟิลด์ที่ใช้เชื่อม (แก้ให้ตรงของคุณ)
+  var FIELD_REMAIN = "remainFold";          // 👉 ฟิลด์ remainFold ของคุณ
 
-
-(function() {
-  "use strict";
-
-  // App ID ของ Production Order
-  var PROD_ORDER_APP_ID = 32;
-
-  // Event หลังจากกดบันทึกสำเร็จ (สร้าง/แก้ไข)
   kintone.events.on(
     ["app.record.create.submit.success", "app.record.edit.submit.success"],
     function(event) {
       var record = event.record;
 
-      // ดึงค่า Sale Order Code และ ผ้าคงเหลือ จาก Product Plan
-      var saleOrderCode = record.sale_order_code.value;
-      var remaining = record.remainFold.value;
+      // ดึงค่าที่ต้องการ
+      var saleOrderCode = record[FIELD_SALE_ORDER].value;
+      var remain = record[FIELD_REMAIN].value;
 
-      // -------------------------------
-      // 1) หา record ที่ตรงใน Production Order App
-      // -------------------------------
-      var query = 'sale_order_code = "' + saleOrderCode + '"';
+      // ค้นหา record ที่ตรงใน Production Order App
+      var query = FIELD_SALE_ORDER + ' = "' + saleOrderCode + '"';
       var getParam = {
         app: PROD_ORDER_APP_ID,
         query: query
@@ -85,22 +80,18 @@
 
       return kintone.api("/k/v1/records", "GET", getParam).then(function(resp) {
         if (resp.records.length > 0) {
-          // -------------------------------
-          // 2) ถ้ามี record → อัปเดตค่า ผ้าคงเหลือ
-          // -------------------------------
+          // อัปเดต record แรกที่เจอ
           var recId = resp.records[0].$id.value;
           var putParam = {
             app: PROD_ORDER_APP_ID,
             id: recId,
-            record: {
-              remainFold: {
-                value: remaining
-              }
-            }
+            record: {}
           };
+          putParam.record[FIELD_REMAIN] = { value: remain };
+
           return kintone.api("/k/v1/record", "PUT", putParam);
         } else {
-          console.log("ไม่พบ Production Order ที่ตรงกับ Sale Order Code:", saleOrderCode);
+          console.log("⚠️ ไม่พบ Production Order ที่ตรงกับ Sale Order Code:", saleOrderCode);
         }
       }).catch(function(err) {
         console.error("API Error:", err);
@@ -109,8 +100,6 @@
   );
 
 })();
-
-
 
 // (function() {
 //   "use strict";
