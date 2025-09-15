@@ -7,8 +7,6 @@
   var ITEM_APP_ID = 53;   // Product Master Data app ID
   var SUBDOMAIN   = "z0j2a1yk5nej"; // your Kintone subdomain
 
-  var PROD_ORDER_APP_ID = 77; // Sales Order app ID (for reference)
-
   // Field codes in the Sales Order app
   var TABLE_CODE     = "product_table";        
   var PRODUCT_CODE   = "product_code";         
