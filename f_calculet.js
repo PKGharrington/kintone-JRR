@@ -21,7 +21,7 @@
     });
 
     // บังคับ remainFold ≥ 0
-    record[REMAIN_FOLD].value = Math.max(totalFoldAll - sumFolds,);
+    record[REMAIN_FOLD].value = Math.max(totalFoldAll - sumFolds, 0);
   }
 
   // Event เปลี่ยนค่าในตาราง → อัปเดต remainFold
